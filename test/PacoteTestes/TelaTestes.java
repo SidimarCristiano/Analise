@@ -62,7 +62,7 @@ public class TelaTestes extends javax.swing.JFrame {
     private void VerificaDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerificaDataActionPerformed
 
         testes t = new testes();
-        t.verificadata();
+        //t.verificadata();
         System.out.println("clicado");
     }//GEN-LAST:event_VerificaDataActionPerformed
 

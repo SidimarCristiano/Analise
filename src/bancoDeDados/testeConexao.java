@@ -3,19 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package analise;
+package bancoDeDados;
 
 /**
  *
- * @author Sidimar
+ * @author Jaque
  */
-public class Analise {
+public class testeConexao {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Conexao connect = new Conexao();
+        System.out.println("Tentando conexao...");
+        connect.conectar();
+        System.out.println("Desconectando....");
+        connect.desconectar();
     }
     
 }

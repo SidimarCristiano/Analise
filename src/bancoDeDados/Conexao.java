@@ -43,7 +43,7 @@ public class Conexao {
         try {
             Class.forName(driver);//carregar o driver de conexão
             conn = DriverManager.getConnection(caminho, usuario, senha);
-            //JOptionPane.showMessageDialog(null, "Conectado com sucesso");
+//            JOptionPane.showMessageDialog(null, "Conectado com sucesso");
         } catch (ClassNotFoundException ex) {
             //JOptionPane.showMessageDialog(null, "erro ao conectar");
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);

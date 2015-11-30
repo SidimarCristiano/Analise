@@ -5,6 +5,11 @@
  */
 package beneficios_convenios;
 
+import bancoDeDados.Dados_BD;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 /**
  *
  * @author Jaque
@@ -65,10 +70,10 @@ public class Cadastro {
         
     }
     
-    public void consultar(){
-        
-    }
+   public void consultar(){
+   }
     
+   
     public void relatorio(){
         
     }

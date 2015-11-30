@@ -5,6 +5,7 @@
  */
 package beneficios_convenios;
 
+import analise.GerenciaBeneficio;
 import bancoDeDados.Dados_BD;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -88,6 +89,11 @@ public class TelaBeneficio extends javax.swing.JFrame {
 
         bConsultar.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         bConsultar.setText("Consultar");
+        bConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bConsultarActionPerformed(evt);
+            }
+        });
 
         bRelatorio.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         bRelatorio.setText("Relatório");
@@ -279,6 +285,9 @@ public class TelaBeneficio extends javax.swing.JFrame {
             txtNome.setEnabled(false);
             txtTipo.setEnabled(false);
             txtAcrescimo.setEnabled(false);
+            bConsultar.setEnabled(true);
+            bIncluir.setEnabled(true);
+            bSalvar.setEnabled(false);
         }
     }//GEN-LAST:event_bSalvarActionPerformed
 
@@ -292,6 +301,11 @@ public class TelaBeneficio extends javax.swing.JFrame {
         bIncluir.setEnabled(true);
         
     }//GEN-LAST:event_bCancelarActionPerformed
+
+    private void bConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bConsultarActionPerformed
+       GerenciaBeneficio gb = new GerenciaBeneficio();
+       gb.setVisible(true);
+    }//GEN-LAST:event_bConsultarActionPerformed
 
     /**
      * @param args the command line arguments

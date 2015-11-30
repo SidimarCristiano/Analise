@@ -29,7 +29,8 @@ public class Convenio extends Cadastro{
         this.tipo_convenio = tipo;
         this.desconto = desconto;
     }
-    
+
+  
     public void setEmpresa(String empresa){
         this.empresa = empresa;
     }

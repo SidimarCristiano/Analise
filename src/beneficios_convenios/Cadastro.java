@@ -5,6 +5,7 @@
  */
 package beneficios_convenios;
 
+import bancoDeDados.Conexao;
 import bancoDeDados.Dados_BD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -67,7 +68,7 @@ public class Cadastro {
         
     }
     public void editar(){
-        
+       
     }
     
    public void consultar(){

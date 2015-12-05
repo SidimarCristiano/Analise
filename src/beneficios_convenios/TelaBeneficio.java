@@ -42,10 +42,7 @@ public class TelaBeneficio extends javax.swing.JFrame {
         bSalvar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         bIncluir = new javax.swing.JButton();
-        bEditar = new javax.swing.JButton();
-        bExcluir = new javax.swing.JButton();
         bConsultar = new javax.swing.JButton();
-        bRelatorio = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -79,14 +76,6 @@ public class TelaBeneficio extends javax.swing.JFrame {
             }
         });
 
-        bEditar.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        bEditar.setText("Editar");
-        bEditar.setEnabled(false);
-
-        bExcluir.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        bExcluir.setText("Excluir");
-        bExcluir.setEnabled(false);
-
         bConsultar.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         bConsultar.setText("Consultar");
         bConsultar.addActionListener(new java.awt.event.ActionListener() {
@@ -94,9 +83,6 @@ public class TelaBeneficio extends javax.swing.JFrame {
                 bConsultarActionPerformed(evt);
             }
         });
-
-        bRelatorio.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        bRelatorio.setText("Relatório");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel2.setText("Nome do benefício:");
@@ -178,15 +164,9 @@ public class TelaBeneficio extends javax.swing.JFrame {
                 .addGroup(jPanelBeneficioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBeneficioLayout.createSequentialGroup()
                         .addComponent(bIncluir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bExcluir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(154, 154, 154)
                         .addComponent(bConsultar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bRelatorio)
-                        .addGap(44, 44, 44))
+                        .addGap(169, 169, 169))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBeneficioLayout.createSequentialGroup()
                         .addComponent(bSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -203,10 +183,7 @@ public class TelaBeneficio extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addGroup(jPanelBeneficioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bIncluir)
-                    .addComponent(bEditar)
-                    .addComponent(bExcluir)
-                    .addComponent(bConsultar)
-                    .addComponent(bRelatorio))
+                    .addComponent(bConsultar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelBeneficioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -249,10 +226,10 @@ public class TelaBeneficio extends javax.swing.JFrame {
     private void bIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bIncluirActionPerformed
         //desabilitar botões
         bIncluir.setEnabled(false);
-        bEditar.setEnabled(false);
-        bExcluir.setEnabled(false);
+//        bEditar.setEnabled(false);
+//        bExcluir.setEnabled(false);
         bConsultar.setEnabled(false);
-        bRelatorio.setEnabled(false);
+//        bRelatorio.setEnabled(false);
         bSalvar.setEnabled(true);
         bCancelar.setEnabled(true);
         
@@ -345,11 +322,8 @@ public class TelaBeneficio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancelar;
     private javax.swing.JButton bConsultar;
-    private javax.swing.JButton bEditar;
-    private javax.swing.JButton bExcluir;
     private javax.swing.JButton bFechar;
     private javax.swing.JButton bIncluir;
-    private javax.swing.JButton bRelatorio;
     private javax.swing.JButton bSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -29,12 +29,17 @@ public class Beneficio extends Cadastro{
     private String tipo_beneficio;
     private String acrescimo;
     private String Status;
-    
-    public Beneficio(String nome, String data, String tipo, String acrescimo){
+    private String id;
+    Dados_BD dados;
+   
+    public Beneficio(String nome, String data, String tipo, String acrescimo, String id){
         super(nome, data);
         this.tipo_beneficio = tipo;
         this.acrescimo = acrescimo;
+        this.id=id;
     }
+
+    
     
    
     
@@ -61,12 +66,16 @@ public class Beneficio extends Cadastro{
     
     @Override
     public void excluir(){
+        dados = new Dados_BD();
+        dados.excluir(Integer.parseInt(this.getId()));
         System.out.println("excluido com sucesso");
     }
     
     @Override
     public void editar(){
-        System.out.println("Editado com sucesso");
+        dados = new Dados_BD();
+        dados.updateBeneficio(this.getNome_beneficio(), this.getData_beneficio(), this.getTipo_beneficio(), this.getAcrescimo(), this.getId());
+       
     }
     
     @Override
@@ -123,5 +132,19 @@ public class Beneficio extends Cadastro{
      */
     public void setStatus(String Status) {
         this.Status = Status;
+    }
+
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -24,10 +25,12 @@ import javax.swing.table.DefaultTableModel;
 public class GerenciaBeneficio extends javax.swing.JFrame {
 
     DefaultTableModel modelo;
+    Beneficio b;
 //    String[] linha;
 
     public GerenciaBeneficio() {
         initComponents();
+        
         DefaultTableModel modelo = (DefaultTableModel) jTabela.getModel();
         modelo.setNumRows(0);
         jTabela.setCellSelectionEnabled(false);
@@ -66,7 +69,7 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabela = new javax.swing.JTable();
         jBEditar = new javax.swing.JButton();
-        jBIncluir = new javax.swing.JButton();
+        jBAtualizar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTNome = new javax.swing.JTextField();
         jTStatus = new javax.swing.JTextField();
@@ -101,6 +104,11 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jTabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTabela);
 
         jBEditar.setText("Editar");
@@ -110,10 +118,10 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
             }
         });
 
-        jBIncluir.setText("Salvar");
-        jBIncluir.addActionListener(new java.awt.event.ActionListener() {
+        jBAtualizar.setText("Atualizar");
+        jBAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBIncluirActionPerformed(evt);
+                jBAtualizarActionPerformed(evt);
             }
         });
 
@@ -165,7 +173,7 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
                                 .addComponent(jTAcrescimo, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(14, 14, 14))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jBIncluir)
+                                .addComponent(jBAtualizar)
                                 .addGap(45, 45, 45)
                                 .addComponent(jBEditar)))
                         .addGap(3, 3, 3)
@@ -198,7 +206,7 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBExcluir)
-                    .addComponent(jBIncluir)
+                    .addComponent(jBAtualizar)
                     .addComponent(jBEditar))
                 .addContainerGap())
         );
@@ -221,40 +229,70 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
 
     private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
         int linha = jTabela.getSelectedRow();
-        modelo.removeRow(linha);
-
+        Dados_BD dados = new Dados_BD();
+        dados.excluir(Integer.parseInt(jTabela.getValueAt(linha, 0).toString()));
+//        System.out.println(jTabela.getValueAt(jTabela.getSelectedRow(), 0).toString());
+       
     }//GEN-LAST:event_jBExcluirActionPerformed
 
     private void jTTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTTipoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTTipoActionPerformed
 
-    private void jBIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBIncluirActionPerformed
-        modelo = (DefaultTableModel) jTabela.getModel();
-        String[] linha = new String[5];
+    private void jBAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAtualizarActionPerformed
+      
+      
+          if(!jTabela.isRowSelected(jTabela.getSelectedRow())){
+              modelo = (DefaultTableModel) jTabela.getModel();
+              String[] linha = new String[6];
 
-        linha[1] = jTNome.getText();
-        linha[2] = jTStatus.getText();
-        linha[3] = jTTipo.getText();
-        linha[4] = jTTipo.getText();
-        //linha[2] = Double.parseDouble(dadosBebida.get(0).getCodigo()) ;
-        modelo.addRow(linha);
-
-        this.limpacampos();
-        Beneficio b = new Beneficio(linha[1], linha[2], linha[3], linha[4]);
-
+              linha[1] = jTNome.getText();
+              linha[2] = jTStatus.getText();
+              linha[3] = jTTipo.getText();
+              linha[4] = jTAcrescimo.getText();
+              linha[5] = jTabela.getValueAt(jTabela.getSelectedRow(), 0).toString();
+              //linha[2] = Double.parseDouble(dadosBebida.get(0).getCodigo()) ;
+              // modelo.addRow(linha);
+//        System.out.println(linha[5]);
+              this.limpacampos();
+              b = new Beneficio(linha[1], linha[2], linha[3], linha[4], linha[5]);
+              b.editar();
+          }else{
+              JOptionPane.showMessageDialog(null, "Nenhum registyo selecionado para edicao");
+          }
         // JOptionPane.showMessageDialog(rootPane, linha[0]+ "/ "+linha[1]+" /"+""+dadosBebida.get(jComboBebida.getSelectedIndex()).getPreco());
         // limpaCampos();
         //jTabela.setValueAt(linha, index, jTabela.getSelectedColumn());
         // jBIncluir.requestFocus();
         // modelo.addRow(linha);
         //System.out.println(linha[0]);
-    }//GEN-LAST:event_jBIncluirActionPerformed
+    }//GEN-LAST:event_jBAtualizarActionPerformed
 
     private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
-        int linha = jTabela.getSelectedRow();
-        jTNome.setText((String) modelo.getValueAt(linha, 1));
+     
+         
     }//GEN-LAST:event_jBEditarActionPerformed
+
+    private void jTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaMouseClicked
+            try{
+       // jTabela.setCellSelectionEnabled(true);
+         int linha = jTabela.getSelectedRow();
+      if( jTabela.isRowSelected(linha)){
+      
+       
+        jTNome.setText(jTabela.getValueAt(linha, 1).toString());
+        jTStatus.setText( jTabela.getValueAt(linha, 2).toString());
+        jTTipo.setText( jTabela.getValueAt(linha, 3).toString());
+        jTAcrescimo.setText( jTabela.getValueAt(linha, 4).toString());
+      }else{
+          System.out.println("nao esta abilitado para edicao");
+      }
+         }catch(Exception e){
+         
+             System.out.println(e.getCause());
+         }
+        
+    }//GEN-LAST:event_jTabelaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -293,9 +331,9 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBAtualizar;
     private javax.swing.JButton jBEditar;
     private javax.swing.JButton jBExcluir;
-    private javax.swing.JButton jBIncluir;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

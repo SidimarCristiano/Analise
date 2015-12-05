@@ -8,8 +8,10 @@ package analise;
 import bancoDeDados.Dados_BD;
 import beneficios_convenios.Beneficio;
 import com.sun.javafx.image.impl.IntArgb;
+import java.awt.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,29 +32,19 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
 
     public GerenciaBeneficio() {
         initComponents();
-        
-        DefaultTableModel modelo = (DefaultTableModel) jTabela.getModel();
-        modelo.setNumRows(0);
-        jTabela.setCellSelectionEnabled(false);
-        Dados_BD bd = new Dados_BD();
-        ResultSet dados;
-        try {
-            dados = bd.consultar("beneficio");
-            while (dados.next()) {
-                modelo.addRow(new Object[]{
-                dados.getString(1), dados.getString(2),dados.getString(3),dados.getString(4),dados.getString(5)
-                });
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(GerenciaBeneficio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
-    public void limpacampos() {
-        jTTipo.setText("");
-        jTNome.setText("");
-        jTStatus.setText("");
-        jTAcrescimo.setText("");
+        montarTabela();
+        
+        //botoes desabilitados
+        jBAtualizar.setEnabled(false);
+        jBEditar.setEnabled(false);
+        jBExcluir.setEnabled(false);
+
+        //txt desabilitados
+        jTTipo.setEnabled(false);
+        jTNome.setEnabled(false);
+        jTStatus.setEnabled(false);
+        jTAcrescimo.setEnabled(false);
     }
 
     /**
@@ -80,6 +72,9 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jTAcrescimo = new javax.swing.JTextField();
         jTTipo = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jTid = new javax.swing.JTextField();
+        btnFechar = new javax.swing.JButton();
 
         jButton3.setText("jButton3");
 
@@ -127,9 +122,13 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
 
         jLabel1.setText("Beneficios:");
 
+        jTNome.setEnabled(false);
+
+        jTStatus.setEnabled(false);
+
         jLabel3.setText("Nome:");
 
-        jLabel4.setText("Status");
+        jLabel4.setText("Data:");
 
         jLabel2.setText("Tipo:");
 
@@ -142,9 +141,24 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
 
         jLabel5.setText("Acrescimo:");
 
+        jTAcrescimo.setEnabled(false);
+
+        jTTipo.setEnabled(false);
         jTTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTTipoActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("ID:");
+
+        jTid.setEditable(false);
+        jTid.setEnabled(false);
+
+        btnFechar.setText("Fechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
             }
         });
 
@@ -152,39 +166,46 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTid, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTNome, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTAcrescimo, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 726, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTNome, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTAcrescimo, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(14, 14, 14))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jBAtualizar)
-                                .addGap(45, 45, 45)
-                                .addComponent(jBEditar)))
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(jBExcluir)))))
-                .addContainerGap(57, Short.MAX_VALUE))
+                                .addGap(332, 332, 332)
+                                .addComponent(jBAtualizar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBEditar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jBExcluir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnFechar)
+                                .addGap(19, 19, 19)))))
+                .addGap(0, 2, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,7 +214,7 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(13, 13, 13)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -202,12 +223,15 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jTAcrescimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jTTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                    .addComponent(jTTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBExcluir)
                     .addComponent(jBAtualizar)
-                    .addComponent(jBEditar))
+                    .addComponent(jBEditar)
+                    .addComponent(btnFechar))
                 .addContainerGap())
         );
 
@@ -232,7 +256,7 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
         Dados_BD dados = new Dados_BD();
         dados.excluir(Integer.parseInt(jTabela.getValueAt(linha, 0).toString()));
 //        System.out.println(jTabela.getValueAt(jTabela.getSelectedRow(), 0).toString());
-       
+
     }//GEN-LAST:event_jBExcluirActionPerformed
 
     private void jTTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTTipoActionPerformed
@@ -240,59 +264,99 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
     }//GEN-LAST:event_jTTipoActionPerformed
 
     private void jBAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAtualizarActionPerformed
-      
-      
-          if(!jTabela.isRowSelected(jTabela.getSelectedRow())){
-              modelo = (DefaultTableModel) jTabela.getModel();
-              String[] linha = new String[6];
 
-              linha[1] = jTNome.getText();
-              linha[2] = jTStatus.getText();
-              linha[3] = jTTipo.getText();
-              linha[4] = jTAcrescimo.getText();
-              linha[5] = jTabela.getValueAt(jTabela.getSelectedRow(), 0).toString();
-              //linha[2] = Double.parseDouble(dadosBebida.get(0).getCodigo()) ;
-              // modelo.addRow(linha);
-//        System.out.println(linha[5]);
-              this.limpacampos();
-              b = new Beneficio(linha[1], linha[2], linha[3], linha[4], linha[5]);
-              b.editar();
-          }else{
-              JOptionPane.showMessageDialog(null, "Nenhum registyo selecionado para edicao");
-          }
-        // JOptionPane.showMessageDialog(rootPane, linha[0]+ "/ "+linha[1]+" /"+""+dadosBebida.get(jComboBebida.getSelectedIndex()).getPreco());
-        // limpaCampos();
-        //jTabela.setValueAt(linha, index, jTabela.getSelectedColumn());
-        // jBIncluir.requestFocus();
-        // modelo.addRow(linha);
-        //System.out.println(linha[0]);
+        if (jTabela.isRowSelected(jTabela.getSelectedRow())) {
+            modelo = (DefaultTableModel) jTabela.getModel();
+            //String[] linha = new String[6];
+            Beneficio bUp = new Beneficio();
+            ArrayList<String> dadosBenef = new ArrayList<>();
+            String id = jTid.getText();
+            String nome = jTNome.getText();
+            String data = jTStatus.getText();
+            String tipo = jTTipo.getText();
+            String acresc = jTAcrescimo.getText();
+            dadosBenef.add(id);
+            dadosBenef.add(nome);
+            dadosBenef.add(data);
+            dadosBenef.add(tipo);
+            dadosBenef.add(acresc);
+            bUp.editar(dadosBenef);
+
+            if (bUp.sucesso() == true) {
+                  limpaCampos();
+                  montarTabela();
+                  jBAtualizar.setEnabled(false);
+                  jBEditar.setEnabled(true);
+                  jBExcluir.setEnabled(true);
+            }
+
+//            linha[1] = jTNome.getText();
+//            linha[2] = jTStatus.getText();
+//            linha[3] = jTTipo.getText();
+//            linha[4] = jTAcrescimo.getText();
+//            linha[0] = jTid.getText();
+            //linha[5] = jTabela.getValueAt(jTabela.getSelectedRow(), 0).toString();
+//            linha[6] = jTabela.getValueAt(jTabela.getSelectedRow(), 0).toString();
+            //linha[2] = Double.parseDouble(dadosBebida.get(0).getCodigo()) ;
+            // modelo.addRow(linha);
+            //        System.out.println(linha[5]);
+            //this.limpacampos();
+//            b = new Beneficio(linha[1], linha[2], linha[3], linha[4], linha[5]);
+            //b.editar();
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum registyo selecionado para edicao");
+        }
+
     }//GEN-LAST:event_jBAtualizarActionPerformed
 
     private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
-     
-         
+
+        //os campos de texto estão dsabilitados. Ao clicar em editar, os campos serão habilitados
+        //o botao editar e excluir serao desabilitado
+        //a edição sera feita e clicar em atualizar para salvar as modificações
+        //botoes desabilitados
+        jBAtualizar.setEnabled(true);
+        jBEditar.setEnabled(false);
+        jBExcluir.setEnabled(false);
+
+        //txt desabilitados
+        jTTipo.setEnabled(true);
+        jTNome.setEnabled(true);
+        jTStatus.setEnabled(true);
+        jTAcrescimo.setEnabled(true);
+
     }//GEN-LAST:event_jBEditarActionPerformed
 
     private void jTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaMouseClicked
-            try{
-       // jTabela.setCellSelectionEnabled(true);
-         int linha = jTabela.getSelectedRow();
-      if( jTabela.isRowSelected(linha)){
-      
-       
-        jTNome.setText(jTabela.getValueAt(linha, 1).toString());
-        jTStatus.setText( jTabela.getValueAt(linha, 2).toString());
-        jTTipo.setText( jTabela.getValueAt(linha, 3).toString());
-        jTAcrescimo.setText( jTabela.getValueAt(linha, 4).toString());
-      }else{
-          System.out.println("nao esta abilitado para edicao");
-      }
-         }catch(Exception e){
-         
-             System.out.println(e.getCause());
-         }
-        
+
+        jBAtualizar.setEnabled(false);
+        jBEditar.setEnabled(true);
+        jBExcluir.setEnabled(true);
+        try {
+            // jTabela.setCellSelectionEnabled(true);
+            int linha = jTabela.getSelectedRow();
+            System.out.println("" + linha);
+            if (jTabela.isRowSelected(linha)) {
+                //
+                jTNome.setText(jTabela.getValueAt(linha, 1).toString());
+                jTStatus.setText(jTabela.getValueAt(linha, 2).toString());
+                jTTipo.setText(jTabela.getValueAt(linha, 3).toString());
+                jTAcrescimo.setText(jTabela.getValueAt(linha, 4).toString());
+                jTid.setText(jTabela.getValueAt(linha, 0).toString());
+
+            } else {
+                System.out.println("nao esta habilitado para edicao");
+            }
+        } catch (Exception e) {
+
+            System.out.println(e.getCause());
+        }
+
     }//GEN-LAST:event_jTabelaMouseClicked
+
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnFecharActionPerformed
 
     /**
      * @param args the command line arguments
@@ -331,6 +395,7 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFechar;
     private javax.swing.JButton jBAtualizar;
     private javax.swing.JButton jBEditar;
     private javax.swing.JButton jBExcluir;
@@ -340,6 +405,7 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTAcrescimo;
@@ -347,5 +413,41 @@ public class GerenciaBeneficio extends javax.swing.JFrame {
     private javax.swing.JTextField jTStatus;
     private javax.swing.JTextField jTTipo;
     private javax.swing.JTable jTabela;
+    private javax.swing.JTextField jTid;
     // End of variables declaration//GEN-END:variables
+
+    public boolean verificaCampos() {
+        if (jTNome.getText().isEmpty() || jTStatus.getText().isEmpty() || jTTipo.getText().isEmpty() || jTAcrescimo.getText().isEmpty() || jTid.getText().isEmpty()) {
+            return true;//retorna true se algum campo for vazio
+        } else {
+            return false; //retorna false se todos os campos estiverem preenchidos
+        }
+    }
+
+    public void limpaCampos() {
+        jTNome.setText("");
+        jTStatus.setText("");
+        jTTipo.setText("");
+        jTAcrescimo.setText("");
+        jTid.setText("");
+
+    }
+    
+    public void montarTabela(){
+        DefaultTableModel modelo = (DefaultTableModel) jTabela.getModel();
+        modelo.setNumRows(0);
+        jTabela.setCellSelectionEnabled(false);
+        Dados_BD bd = new Dados_BD();
+        ResultSet dados;
+        try {
+            dados = bd.consultar("beneficio");
+            while (dados.next()) {
+                modelo.addRow(new Object[]{
+                    dados.getString(1), dados.getString(2), dados.getString(3), dados.getString(4), dados.getString(5)
+                });
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenciaBeneficio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -21,6 +21,9 @@ public class Cadastro {
     private String data;
     //private double desconto;
     
+    public Cadastro(){       
+    }
+    
     public Cadastro(String nome, String data){
         this.nome = nome;
         this.data = data;
